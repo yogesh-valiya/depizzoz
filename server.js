@@ -15,7 +15,11 @@ app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
 app.get("/", (req, res) => {
-    res.render("home", {layout: false})
+    res.render("home")
+})
+
+app.get("/cart", (req, res) => {
+    res.render("customer/cart")
 })
 
 app.listen(PORT, () => {

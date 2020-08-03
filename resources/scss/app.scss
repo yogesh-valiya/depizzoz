@@ -50,6 +50,14 @@ section.menu {
     }
 }
 
+section.cart {
+    background: $secondary;
+
+    .amount {
+        color: $primary;
+    }
+}
+
 .btn-primary {
     background: $primary;
     color: $pure;
