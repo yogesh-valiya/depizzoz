@@ -49,3 +49,13 @@ section.menu {
         }
     }
 }
+
+.btn-primary {
+    background: $primary;
+    color: $pure;
+    transition: $smooth;
+
+    &:hover {
+        background: $primary-hover;
+    }
+}
