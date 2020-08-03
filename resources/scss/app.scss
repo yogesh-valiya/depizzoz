@@ -58,6 +58,18 @@ section.cart {
     }
 }
 
+section.login {
+    background: $secondary;
+    height: calc(100vh - 86px);
+
+    a {
+        color: $primary;
+        &:hover{
+            color: $primary-hover   ;
+        }
+    }
+}
+
 .btn-primary {
     background: $primary;
     color: $pure;
