@@ -1,0 +1,12 @@
+{
+  "name": "depizzoz",
+  "version": "1.0.0",
+  "description": "Demo project for pizza shop management with realtime updates.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["Pizza Shop", "NodeJS", "Express", "Socket.io"],
+  "author": "Yogesh Valiya",
+  "license": "MIT"
+}
