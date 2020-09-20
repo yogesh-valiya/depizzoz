@@ -1,7 +1,7 @@
 module.exports = () => {
     return {
         index(req, res) {
-            res.render("auth/login")
+            res.render("customer/cart")
         },
     }
 }

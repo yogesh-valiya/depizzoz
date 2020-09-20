@@ -1,7 +1,12 @@
+const Menu = require('../../models/menu')
+
 module.exports = () => {
     return {
         index(req, res) {
-            res.render("home")
+            Menu.find().then((pizzas) => {
+                console.log(pizzas);
+                return res.render("home", {pizzas: pizzas})
+            })
         }
     }
 }
