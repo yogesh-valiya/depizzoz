@@ -1,4 +1,6 @@
 @import "./variables";
+@import "~noty/src/noty.scss";
+@import "~noty/src/themes/mint.scss";
 
 body {
     font-family: 'Lato', sans-serif;
@@ -47,6 +49,9 @@ section.menu {
             border-color: $pure;
             color: $pure;
         }
+        &:focus{
+            outline: none;
+        }
     }
 }
 
@@ -77,5 +82,13 @@ section.login {
 
     &:hover {
         background: $primary-hover;
+    }
+}
+
+.noty_bar{
+    padding-left: 8px !important;
+    font-size: large !important;
+    .noty_body{
+        font-size: 90% !important;
     }
 }
