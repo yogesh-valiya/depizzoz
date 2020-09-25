@@ -13,7 +13,13 @@ const validateEmail = email =>  {
 module.exports = () => {
     return {
         login(req, res) {
-            res.render("auth/login", {redirect: encodeURI(req.query.redirect)})
+            let redirect = req.query.redirect
+            if(redirect){
+                redirect = encodeURI(req.query.redirect)
+            }else{
+                redirect = ''
+            }
+            res.render("auth/login", {redirect})
         },
 
         postLogin(req, res, next) {
