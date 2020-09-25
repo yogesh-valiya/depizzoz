@@ -13,11 +13,14 @@ const validateEmail = email =>  {
 module.exports = () => {
     return {
         login(req, res) {
-            res.render("auth/login")
+            res.render("auth/login", {redirect: encodeURI(req.query.redirect)})
         },
 
         postLogin(req, res, next) {
-            let { email, password} = req.body
+            let { email, password, redirect} = req.body
+            if(!redirect){
+                redirect = '/'
+            }
             if(!email || !password){
                 req.flash('error', 'All fields are required.')
                 req.flash('email', email)
@@ -38,7 +41,7 @@ module.exports = () => {
                         req.flash('error', info.message)
                         return next(err)
                     }
-                    return res.redirect('/')
+                    return res.redirect(redirect)
                 })    
             })(req, res, next)
         },
