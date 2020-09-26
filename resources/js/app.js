@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Noty from 'noty';
+import moment from 'moment';
 
 import { initAdmin } from './admin'
 
@@ -48,6 +49,33 @@ if(message){
     }, 5000)
 }
 
-
-
 initAdmin()
+
+
+// Status Management
+let statuses = document.querySelectorAll('.status_line')
+let hiddenInput = document.querySelector('#hiddenInput')
+let order = hiddenInput ? hiddenInput.value : null
+order = JSON.parse(order)
+
+function updateStatus(order) {
+    let timeSnap = document.createElement('small')
+    let stepCompleted = true
+    statuses.forEach(status => {
+        let currStatus = status.dataset.status
+        if(stepCompleted){
+            status.classList.add('step-completed')
+        }
+        if(currStatus === order.status){
+            stepCompleted = false
+            timeSnap.innerText = moment(order.updatedAt).format('hh:mm A')
+            status.appendChild(timeSnap)
+            if(status.nextElementSibling){
+                status.nextElementSibling.classList.add('current')
+            }
+        }
+
+    })
+}
+
+updateStatus(order)

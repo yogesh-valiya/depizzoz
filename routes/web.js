@@ -29,6 +29,7 @@ function initRoutes(app) {
     // Order routes
     app.post("/placeOrder", authMiddleware, orderController().placeOrder)
     app.get("/customer/orders", authMiddleware, orderController().orders)
+    app.get("/customer/orders/:id", authMiddleware, orderController().order)
 
     // Admin routes
     app.get("/admin/orders", adminMiddleware, AdminOrderController().orders)

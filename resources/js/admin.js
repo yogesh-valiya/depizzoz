@@ -14,7 +14,6 @@ export function initAdmin() {
         }
     }).then(res => {
         orders = res.data
-        console.log(orders);
         markup = generateMarkup(orders)
         orderTableBody.innerHTML = markup
     }).catch(err => {

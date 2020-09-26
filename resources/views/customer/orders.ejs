@@ -17,7 +17,7 @@
             <tbody>
                 <% orders.forEach((order) => { %>
                 <tr>
-                    <td class="border px-4 py-2"><a href="/" class="no-underline link"><%= order._id %></a></td>
+                    <td class="border px-4 py-2"><a href="/customer/orders/<%= order._id %>" class="no-underline link"><%= order._id %></a></td>
                     <td class="border px-4 py-2"><%= order.phone %></td>
                     <td class="border px-4 py-2"><%= order.address %></td>
                     <td class="border px-4 py-2"><%= moment(order.createdAt).format('hh:mm A') %></td>
