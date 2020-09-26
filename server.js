@@ -79,11 +79,14 @@ const server = app.listen(PORT, () => {
 const io = require('socket.io')(server)
 io.on('connection', socket => {
     socket.on('join', orderId => {
-        console.log(orderId);
         socket.join(orderId)
     })
 })
 
 eventEmitter.on('orderUpdate', data => {
     io.to(`order_${data.orderId}`).emit('orderUpdate', {...data})
+})
+
+eventEmitter.on('orderReceived', data => {
+    io.to('adminRoom').emit('orderReceived', {...data})
 })

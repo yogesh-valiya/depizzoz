@@ -22,7 +22,13 @@ function orderController() {
                 address
             })
 
-            order.save().then(() => {
+            order.save().then(newOrder => {
+                Order.populate(newOrder, {path: 'customerId'}, (err, result) => {
+                    if(!err){
+                        const eventEmitter = req.app.get('eventEmitter')
+                        eventEmitter.emit('orderReceived', {newOrder})
+                    }
+                })
                 req.session.cart = undefined
                 req.flash('success', 'Order placed successfully.')
                 return res.redirect('/customer/orders')

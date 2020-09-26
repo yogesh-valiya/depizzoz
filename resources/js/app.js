@@ -4,6 +4,8 @@ import moment from 'moment';
 
 import { initAdmin } from './admin'
 
+let socket = io()
+
 let addToCart = document.querySelectorAll('.add-to-cart')
 let cartCounter = document.querySelector('#cartCounter')
 let message = document.querySelector('#success_alert')
@@ -49,7 +51,7 @@ if(message){
     }, 5000)
 }
 
-initAdmin()
+initAdmin(socket    )
 
 
 // Status Management
@@ -87,7 +89,6 @@ function updateStatus(order) {
 updateStatus(order)
 
 
-let socket = io()
 if(order){
     socket.emit('join', `order_${order._id}`)
     socket.on('orderUpdate', data => {
@@ -101,4 +102,10 @@ if(order){
             timeout: 3000,
         }).show();
     })
+}
+
+const adminArea = window.location.pathname
+if(adminArea === '/admin/orders'){
+    console.log('Admin');
+    socket.emit('join', 'adminRoom')
 }
