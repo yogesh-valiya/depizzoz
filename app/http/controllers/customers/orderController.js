@@ -16,7 +16,7 @@ function orderController() {
             }
 
             const order = new Order({
-                customer_id: req.user._id,
+                customerId: req.user._id,
                 items: req.session.cart.items,
                 phone,
                 address
@@ -27,12 +27,13 @@ function orderController() {
                 req.flash('success', 'Order placed successfully.')
                 return res.redirect('/customer/orders')
             }).catch((err) => {
+                console.log(err);
                 req.flash('error', 'Something went wrong.')
                 return res.redirect('/cart')
             })
         },
         async orders(req, res){
-            let orders = await Order.find({customer_id: req.user._id}, null, {sort: { createdAt: -1 }})
+            let orders = await Order.find({customerId: req.user._id}, null, {sort: { createdAt: -1 }})
             return res.render('customer/orders', {orders, moment})
         },
     }    

@@ -1,6 +1,8 @@
 import axios from 'axios';
 import Noty from 'noty';
 
+import { initAdmin } from './admin'
+
 let addToCart = document.querySelectorAll('.add-to-cart')
 let cartCounter = document.querySelector('#cartCounter')
 let message = document.querySelector('#success_alert')
@@ -45,3 +47,7 @@ if(message){
         fadeout(message)
     }, 5000)
 }
+
+
+
+initAdmin()

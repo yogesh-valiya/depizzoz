@@ -2,15 +2,22 @@ const bcrypt = require('bcrypt')
 const User = require('../../models/user')
 const passport = require('passport')
 
-
-const validateEmail = email =>  {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-}
-
-
-
 module.exports = () => {
+
+    const validateEmail = email =>  {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+    
+    const getRedirectURL = req =>  {
+        let {redirect} = req.body
+        if(!redirect){
+            redirect = req.user.role === 'admin' ? '/admin/orders' : '/customer/orders'
+        }
+        return redirect
+    }
+    
+
     return {
         login(req, res) {
             let redirect = req.query.redirect
@@ -23,10 +30,8 @@ module.exports = () => {
         },
 
         postLogin(req, res, next) {
-            let { email, password, redirect} = req.body
-            if(!redirect){
-                redirect = '/'
-            }
+            let { email, password } = req.body
+
             if(!email || !password){
                 req.flash('error', 'All fields are required.')
                 req.flash('email', email)
@@ -47,6 +52,7 @@ module.exports = () => {
                         req.flash('error', info.message)
                         return next(err)
                     }
+                    let redirect = getRedirectURL(req)
                     return res.redirect(redirect)
                 })    
             })(req, res, next)
