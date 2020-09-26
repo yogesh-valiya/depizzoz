@@ -22,6 +22,8 @@ function orderController() {
                 if(err){
                     res.flash('error', 'Something went wrong.')
                 }
+                const eventEmitter = req.app.get('eventEmitter')
+                eventEmitter.emit('orderUpdate', {orderId, status})
                 return res.redirect('/admin/orders')
             })
         },

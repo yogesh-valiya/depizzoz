@@ -32,18 +32,26 @@ function orderController() {
                 return res.redirect('/cart')
             })
         },
-        async orders(req, res){
-            let orders = await Order.find({customerId: req.user._id}, null, {sort: { createdAt: -1 }})
-            return res.render('customer/orders', {orders, moment})
-        },
-        async order(req, res){
-            const order = await Order.findById(req.params.id)
-
-            if(order.customerId.toString() !== req.user._id.toString()){
-                req.flash('error', 'Order not found.')
+        orders(req, res){
+            Order.find({customerId: req.user._id}, null, {sort: { createdAt: -1 }}).then( orders => {
+                return res.render('customer/orders', {orders, moment})
+            }).catch(err => {
+                console.log(err);
                 return res.redirect('/')
-            }
-            return res.render('customer/singleOrder', {order})
+            })
+        },
+        order(req, res){
+            Order.findById(req.params.id).then(order => {
+                if(order.customerId.toString() !== req.user._id.toString()){
+                    req.flash('error', 'Order not found.')
+                    return res.redirect('/')
+                }
+                return res.render('customer/singleOrder', {order})    
+            }).catch(err => {
+                console.log(err);
+                return res.redirect('/', {order})    
+            })
+
         },
     }    
 }

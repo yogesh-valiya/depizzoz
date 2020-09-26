@@ -61,6 +61,12 @@ order = JSON.parse(order)
 function updateStatus(order) {
     let timeSnap = document.createElement('small')
     let stepCompleted = true
+
+    statuses.forEach(status => {
+        status.classList.remove('step-completed')
+        status.classList.remove('current')
+    })
+
     statuses.forEach(status => {
         let currStatus = status.dataset.status
         if(stepCompleted){
@@ -79,3 +85,20 @@ function updateStatus(order) {
 }
 
 updateStatus(order)
+
+
+let socket = io()
+if(order){
+    socket.emit('join', `order_${order._id}`)
+    socket.on('orderUpdate', data => {
+        const updatedOrder = {...order}
+        updatedOrder.updatedAt = moment().format()
+        updatedOrder.status = data.status
+        updateStatus(updatedOrder)
+        new Noty({
+            text: 'Order status updated.',
+            type: 'success',
+            timeout: 3000,
+        }).show();
+    })
+}

@@ -8,10 +8,10 @@ const session = require('express-session')
 const passport = require('passport')
 const expressLayout = require('express-ejs-layouts')
 const flash = require('express-flash')
+const Emitter = require('events')
 const MongoStore = require('connect-mongo')(session)
 
-
-
+const eventEmitter = new Emitter()
 const connectionString = process.env.MONGODB_CONNECTION_STRING
 
 mongo.connect(connectionString, {
@@ -38,6 +38,7 @@ const mongoStore = new MongoStore({
 
 const app = express()
 
+app.set('eventEmitter', eventEmitter)
 app.set('views', path.join(__dirname, '/resources/views'))
 app.set('view engine', 'ejs')
 
@@ -69,6 +70,20 @@ app.use((req, resp, next) => {
 
 require('./routes/web')(app)
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Listening on the port ${PORT} !`)
+})
+
+
+// Socket.IO integration
+const io = require('socket.io')(server)
+io.on('connection', socket => {
+    socket.on('join', orderId => {
+        console.log(orderId);
+        socket.join(orderId)
+    })
+})
+
+eventEmitter.on('orderUpdate', data => {
+    io.to(`order_${data.orderId}`).emit('orderUpdate', {...data})
 })
