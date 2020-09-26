@@ -32,6 +32,7 @@ function initRoutes(app) {
 
     // Admin routes
     app.get("/admin/orders", adminMiddleware, AdminOrderController().orders)
+    app.post("/admin/order/status", adminMiddleware, AdminOrderController().changeStatus)
 
 
 }

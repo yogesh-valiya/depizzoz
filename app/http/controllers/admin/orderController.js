@@ -10,7 +10,21 @@ function orderController() {
                 return res.render('admin/orders')
                }
            })
-        }
+        },
+        changeStatus(req, res){
+            const {orderId, status} = req.body
+
+            if(!orderId || !status){
+                res.flash('error', 'Invalid request. Please try again later.')
+                return res.redirect('/admin/orders')
+            }
+            order.updateOne({_id: orderId}, {status}, (err, data) => {
+                if(err){
+                    res.flash('error', 'Something went wrong.')
+                }
+                return res.redirect('/admin/orders')
+            })
+        },
     }
 }
 
