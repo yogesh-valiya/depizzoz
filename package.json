@@ -33,7 +33,7 @@
     "express-flash": "^0.0.2",
     "express-session": "^1.17.1",
     "flash": "^1.1.0",
-    "moment": "^2.29.0",
+    "moment": "^2.29.4",
     "mongoose": "^5.9.27",
     "noty": "^3.2.0-beta",
     "passport": "^0.4.1",
